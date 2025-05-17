@@ -15,6 +15,9 @@ class User extends Authenticatable
     use Notifiable;
     use HasApiTokens;
 
+
+    public const string TOKEN_NAME = 'user_token';
+
     /**
      * The attributes that are mass assignable.
      *
