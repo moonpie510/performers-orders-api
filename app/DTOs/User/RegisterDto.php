@@ -10,6 +10,7 @@ readonly class RegisterDto
         public string $name,
         public string $email,
         public string $password,
+        public int $partnershipId
     )
     {}
 
@@ -19,6 +20,7 @@ readonly class RegisterDto
             name: $request->name,
             email: $request->email,
             password: $request->password,
+            partnershipId: $request->partnership_id
         );
     }
 }

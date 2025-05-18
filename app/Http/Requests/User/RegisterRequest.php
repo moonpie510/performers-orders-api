@@ -17,6 +17,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'confirmed'],
+            'partnership_id' => ['required', 'exists:partnerships,id'],
         ];
     }
 
@@ -31,6 +32,9 @@ class RegisterRequest extends FormRequest
 
             'password.required' => 'Введите пароль',
             'password.confirmed' => 'Подтвердите пароль',
+
+            'partnership_id.required' => 'Выберите партнерство',
+            'partnership_id.exists' => 'Такого партнерства не существует',
         ];
     }
 }

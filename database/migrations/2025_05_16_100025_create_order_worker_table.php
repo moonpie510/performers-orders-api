@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->foreign('order_id')->references('id')->on('orders');
             $table->foreign('worker_id')->references('id')->on('workers');
-            $table->integer("amount");
+            $table->decimal('amount', 15, 0);
             $table->timestamps();
         });
     }

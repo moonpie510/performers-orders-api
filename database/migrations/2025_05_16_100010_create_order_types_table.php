@@ -14,12 +14,9 @@ return new class extends Migration
     {
         Schema::create('order_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
+            $table->timestamps();
         });
-
-        DB::table('order_types')->insert(['name' => 'Погрузка/Разгрузка']);
-        DB::table('order_types')->insert(['name' => 'Такелажные работы']);
-        DB::table('order_types')->insert(['name' => 'Уборка']);
     }
 
     /**

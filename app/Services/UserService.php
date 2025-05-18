@@ -30,6 +30,7 @@ readonly class UserService
     public function register(RegisterDto $dto): User
     {
         return User::query()->create([
+            'partnership_id' => $dto->partnershipId,
             'name' => $dto->name,
             'email' => $dto->email,
             'password' => $dto->password,
@@ -39,7 +40,7 @@ readonly class UserService
     public function logout(): void
     {
         /** @var User $user */
-        $user = auth()->user();
+        $user = $this->getAuthUser();
 
         if (!$user) {
             throw AuthException::notAuthorized();
@@ -51,7 +52,7 @@ readonly class UserService
     public function getActiveSessions(): Collection
     {
         /** @var User $user */
-        $user = auth()->user();
+        $user = $this->getAuthUser();
 
         if (!$user) {
             throw AuthException::notAuthorized();
@@ -66,7 +67,7 @@ readonly class UserService
     public function closeSession(string $id): void
     {
         /** @var User $user */
-        $user = auth()->user();
+        $user = $this->getAuthUser();
 
         if (!$user) {
             throw AuthException::notAuthorized();
@@ -79,5 +80,10 @@ readonly class UserService
         }
 
         $session->revoke();
+    }
+
+    public function getAuthUser(): ?User
+    {
+        return auth('api')->user();
     }
 }

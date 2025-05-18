@@ -25,9 +25,11 @@ return new class extends Migration
             $table->text('description');
             $table->timestamp('date');
             $table->string('address');
-            $table->unsignedInteger('amount');
+            $table->decimal('amount', 15, 0);
             $table->enum('status', ['Создан', 'Назначен исполнитель', 'Завершен'])->default('Создан');
             $table->timestamps();
+
+            $table->index('status');
         });
     }
 
