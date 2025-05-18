@@ -7,6 +7,7 @@ use App\DTOs\Order\CreateOrderDto;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\AssignWorkerRequest;
 use App\Http\Requests\Order\CreateOrderRequest;
+use App\Http\Requests\Order\UpdateOrderStatusRequest;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
@@ -33,6 +34,16 @@ class OrderController extends Controller
     {
         try {
             $this->orderService->assignWorker(AssignWorkerDto::fromRequest($request));
+            return $this->successResponse();
+        } catch (\Throwable $th) {
+            return $this->errorResponse($th->getMessage());
+        }
+    }
+
+    public function updateStatus(UpdateOrderStatusRequest $request, Order $order): JsonResponse
+    {
+        try {
+            $this->orderService->updateStatus($order, $request->status);
             return $this->successResponse();
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage());

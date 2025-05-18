@@ -5,6 +5,7 @@ namespace App\Services;
 use App\DTOs\Order\AssignWorkerDto;
 use App\DTOs\Order\CreateOrderDto;
 use App\Enums\OrderStatus;
+use App\Events\OrderStatusUpdatedEvent;
 use App\Exceptions\AuthException;
 use App\Exceptions\OrderException;
 use App\Exceptions\WorkerException;
@@ -76,5 +77,12 @@ readonly class OrderService
     private function isExcludedOrderType(Worker $worker, Order $order): bool
     {
         return $worker->excludedOrderTypes->contains($order->type_id);
+    }
+
+    public function updateStatus(Order $order, string $status): void
+    {
+        $order->update(['status' => $status]);
+
+        OrderStatusUpdatedEvent::dispatch($order, $status);
     }
 }

@@ -16,13 +16,15 @@ Route::prefix('v1')->group(function () {
         });
     });
 
-    Route::controller(OrderController::class)->prefix('orders')->group(function () {
-        Route::post('/', 'store')->middleware('auth:api');
-        Route::post('/assign-worker', 'assignWorker')->middleware('auth:api');
+    Route::controller(OrderController::class)->prefix('orders')->middleware('auth:api')->group(function () {
+        Route::post('/', 'store');
+        Route::put('/{order}/status', 'updateStatus');
+        Route::post('/assign-worker', 'assignWorker');
     });
 
     Route::controller(WorkerController::class)->prefix('workers')->group(function () {
         Route::get('/', 'index');
+        Route::post('/{id}/login', 'login');
     });
 });
 
