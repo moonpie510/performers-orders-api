@@ -2,4 +2,5 @@
 *.*
 !.gitignore
 !my.cnf
+!init.sql
 

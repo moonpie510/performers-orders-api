@@ -172,5 +172,12 @@
                 </div>
             </div>
         </div>
+
+        <script type="module">
+            // window.Echo.private('worker.1').listen('OrderStatusUpdatedEvent', e => {
+            //     console.log(e.status);
+            //     console.log(e.order);
+            // });
+        </script>
     </body>
 </html>

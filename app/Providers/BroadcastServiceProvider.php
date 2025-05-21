@@ -20,6 +20,6 @@ class BroadcastServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Broadcast::routes(['middleware' => 'auth:worker']);
+//        Broadcast::routes(['middleware' => 'auth:worker']);
     }
 }
