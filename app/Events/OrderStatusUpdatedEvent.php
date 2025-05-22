@@ -20,7 +20,7 @@ class OrderStatusUpdatedEvent implements ShouldBroadcast
      */
     public function __construct(
         public Order $order,
-        public OrderStatus $status,
+        public string $status,
     )
     {}
 
@@ -44,7 +44,7 @@ class OrderStatusUpdatedEvent implements ShouldBroadcast
     {
         return [
             'order' => $this->order,
-            'status' => $this->status->value,
+            'status' => $this->status,
         ];
     }
 }
