@@ -9,11 +9,12 @@
 - Запускаем `composer install`
 - `php artisan storage:link`
 - `chmod 777 -R ./storage`
-- `chmod 777 -R ./bootsrap/cache`
+- `chmod 777 -R ./bootstrap/cache`
 - Генерируем ключ для приложения `php artisan key:generate`
 - Запускаем миграции с сидами `php artisan migrate --seed`
 - Создайте тестовую БД `php artisan test:create-schema`
 - Генерируем ключи шифрования для passport `php artisan passport:keys`
+- `chmod 777 -R ./storage`
 - Создайте ключи для passport `php artisan passport:client --personal`, а далее вставьте их в .env в `PASSPORT_PERSONAL_ACCESS_CLIENT_ID` и `PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET`
 - Запускаем `npm run dev`
 - Открываем дргую вкладку терминала и заходим в контейнер `docker exec -it skilla_php-fpm bash` и заускаем `php artisan reverb:start`
