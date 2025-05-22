@@ -1,66 +1,110 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Установка
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+- Клонируем репозиторий `git clone git@github.com:moonpie510/performers-orders-api.git`
+- Переходим в папку с проектом
+- Создаем .env на основе .env.example
+- Запускаем докер `docker compose up -d`
+- Заходим в контейнер `docker exec -it skilla_php-fpm bash`
+- Запускаем `npm i`
+- Запускаем `composer install`
+- `php artisan storage:link`
+- `chmod 777 -R ./storage`
+- `chmod 777 -R ./bootsrap/cache`
+- Генерируем ключ для приложения `php artisan key:generate`
+- Запускаем миграции с сидами `php artisan migrate --seed`
+- Создайте тестовую БД `php artisan test:create-schema`
+- Генерируем ключи шифрования для passport `php artisan passport:keys`
+- Создайте ключи для passport `php artisan passport:client --personal`, а далее вставьте их в .env в `PASSPORT_PERSONAL_ACCESS_CLIENT_ID` и `PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET`
+- Запускаем `npm run dev`
+- Открываем дргую вкладку терминала и заходим в контейнер `docker exec -it skilla_php-fpm bash` и заускаем `php artisan reverb:start`
+- Опять открываем дргую вкладку терминала и заходим в контейнер `docker exec -it skilla_php-fpm bash` и заускаем `php artisan test`
 
-## About Laravel
+## Тесты
+- Для запуска тестов нужно создать тестовую БД командой `php artisan test:create-schema`.
+- Запустить тесты можно `php artisan test`
+`
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Роуты
+1) ### Логин менеджера
+```http
+POST /api/v1/auth/user/login
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Параметр   | Тип      | Описание                 |
+|:-----------|:---------|:-------------------------|
+| `email`    | `email`  | **Обязательный**. Почта  |
+| `password` | `string` | **Обязательный**. Пароль |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2) ### Регистарция менеджера
+```http
+POST /api/v1/auth/user/register
+```
 
-## Learning Laravel
+| Параметр                | Тип      | Описание                                     |
+|:------------------------|:---------|:---------------------------------------------|
+| `name`                  | `string` | **Обязательный**. Имя                        |
+| `email`                 | `email`  | **Обязательный**. Почта                      |
+| `password`              | `string` | **Обязательный**. Пароль                     |
+| `password_confirmation` | `string` | **Обязательный**. Пароль подтверждение       |
+| `partnership_id`        | `int`    | **Обязательный**. id из таблицы partnerships |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+3) ### Выход из аккаунта менеджера
+```http
+POST /api/v1/auth/user/logout
+```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+4) ### Получение активных сессий менеджера
+```http
+GET /api/v1/auth/user/sessions
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+5) ### Закрытие выбранной сесии
+```http
+DELETE /api/v1/auth/user/sessions/{id}
+```
+id - id сессии которую нужно закрыть
 
-## Laravel Sponsors
+6) ### Создание заказа
+```http
+POST /api/v1/orders
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+| Параметр         | Тип      | Описание                                               |
+|:-----------------|:---------|:-------------------------------------------------------|
+| `type_id`        | `int`    | **Обязательный**. Идентификатор типа заказа            |
+| `partnership_id` | `int`    | **Обязательный**. Идентификатор партнера               |
+| `user_id`        | `int`    | **Обязательный**. Идентификатор менеджера              |
+| `description`    | `string` | **Обязательный**. Описание                             |
+| `date`           | `string` | **Обязательный**. Дата                                 |
+| `address`        | `string` | **Обязательный**. Адрес                                |
+| `amount`         | `int`    | **Обязательный**. Стоимость                            |
 
-### Premium Partners
+7) ### Назначить исполнителя на заказ
+```http
+POST /api/v1/orders/assign-worker
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+| Параметр    | Тип   | Описание                                    |
+|:------------|:------|:--------------------------------------------|
+| `worker_id` | `int` | **Обязательный**. Идентификатор исполнителя |
+| `order_id`  | `int` | **Обязательный**. Идентификатор заказа      |
 
-## Contributing
+8) ### Поменять статус заказа
+```http
+PUT /api/v1/orders/{order}/status
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+order - id заказа
 
-## Code of Conduct
+| Параметр | Тип      | Описание                              |
+|:---------|:---------|:--------------------------------------|
+| `status` | `string` | **Обязательный**. Новый статус заказа |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+9) ### Получить отфильтрованный список исполнителей
+```http
+GET /api/v1/workers
+```
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Параметр         | Тип   | Описание                                             |
+|:-----------------|:------|:-----------------------------------------------------|
+| `order_type_ids` | `int` | **Обязательный**. Массив идентификаторов типа заказа |
