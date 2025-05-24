@@ -1,3 +1,6 @@
+## О проекте
+Бизнес логика находится в папке `src` и поделена на домены.
+
 ## Установка
 
 - Клонируем репозиторий `git clone git@github.com:moonpie510/performers-orders-api.git`
