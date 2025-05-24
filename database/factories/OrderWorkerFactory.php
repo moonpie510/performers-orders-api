@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Order;
-use App\Models\OrderWorker;
-use App\Models\Worker;
+use Domains\Order\Models\Order;
+use Domains\Order\Models\OrderWorker;
+use Domains\Worker\Models\Worker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class OrderWorkerFactory extends Factory
 {
+    protected $model = OrderWorker::class;
+
     /**
      * Define the model's default state.
      *

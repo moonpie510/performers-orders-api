@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\OrderType;
-use App\Models\Worker;
-use App\Models\WorkersExOrderType;
+use Domains\Order\Models\OrderType;
+use Domains\Worker\Models\Worker;
+use Domains\Worker\Models\WorkersExOrderType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class WorkersExOrderTypeFactory extends Factory
 {
+    protected $model = WorkersExOrderType::class;
+
     /**
      * Define the model's default state.
      *

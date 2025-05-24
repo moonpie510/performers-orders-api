@@ -2,28 +2,33 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\DTOs\Order\AssignWorkerDto;
-use App\DTOs\Order\CreateOrderDto;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Order\AssignWorkerRequest;
-use App\Http\Requests\Order\CreateOrderRequest;
-use App\Http\Requests\Order\UpdateOrderStatusRequest;
-use App\Models\Order;
-use App\Services\OrderService;
+use Domains\Order\DTOs\AssignWorkerDto;
+use Domains\Order\DTOs\CreateOrderDto;
+use Domains\Order\Models\Order;
+use Domains\Order\Repositories\OrderRepositoryInterface;
+use Domains\Order\Requests\AssignWorkerRequest;
+use Domains\Order\Requests\CreateOrderRequest;
+use Domains\Order\Requests\UpdateOrderStatusRequest;
+use Domains\Order\Services\OrderService;
+use Domains\User\Services\UserService;
 use Illuminate\Http\JsonResponse;
 
 
 class OrderController extends Controller
 {
     public function __construct(
-        private readonly OrderService $orderService
+        private readonly OrderService $orderService,
+        private readonly UserService $userService,
+        private readonly OrderRepositoryInterface $orderRepository,
     )
     {}
 
     public function store(CreateOrderRequest $request): JsonResponse
     {
         try {
-            $this->orderService->createOrder(CreateOrderDto::fromRequest($request));
+            $user = $this->userService->getAuthUser();
+            $this->orderRepository->create(CreateOrderDto::fromRequest($request, $user->id));
             return $this->successResponse();
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage());

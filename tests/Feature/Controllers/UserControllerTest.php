@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Controllers;
 
-use App\Models\Partnership;
-use App\Models\User;
+use Domains\Partnership\Models\Partnership;
+use Domains\User\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
@@ -44,7 +44,7 @@ class UserControllerTest extends TestCase
 
         $this->assertDatabaseMissing('users', ['email' => $newUserData['email']]);
 
-        $response = $this->post('/api/v1/auth/user/register', $newUserData);
+        $response = $this->post('/api/v1/users/register', $newUserData);
 
         $response->assertJson(['success' => true]);
 
@@ -56,7 +56,7 @@ class UserControllerTest extends TestCase
         $partnership = Partnership::factory()->create();
         $user = User::factory()->create(['password' => 'password123']);
 
-        $response = $this->post('/api/v1/auth/user/login', ['email' => $user->email, 'password' => 'password123']);
+        $response = $this->post('/api/v1/users/login', ['email' => $user->email, 'password' => 'password123']);
 
         $response->assertJson(['success' => true]);
 
@@ -69,7 +69,7 @@ class UserControllerTest extends TestCase
 
         Passport::actingAs($user);
 
-        $response = $this->post('/api/v1/auth/user/logout');
+        $response = $this->post('/api/v1/users/logout');
 
         $response->assertJson(['success' => true]);
     }
@@ -81,7 +81,7 @@ class UserControllerTest extends TestCase
 
         Passport::actingAs($user);
 
-        $response = $this->get('/api/v1/auth/user/sessions');
+        $response = $this->get('/api/v1/users/sessions');
 
         $response->assertOk();
     }
@@ -95,7 +95,7 @@ class UserControllerTest extends TestCase
         $user->createToken('test');
         $token = $user->tokens()->first();
 
-        $response = $this->delete("/api/v1/auth/user/sessions/{$token->id}");
+        $response = $this->delete("/api/v1/users/sessions/{$token->id}");
 
         $response->assertOk();
     }

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Controllers;
 
-use App\Models\Worker;
+use Domains\Worker\Models\Worker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Passport\ClientRepository;
 use Tests\TestCase;

@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrderWorker;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\Order\Models\OrderWorker;
 use Illuminate\Database\Seeder;
 
 class OrderWorkerSeeder extends Seeder

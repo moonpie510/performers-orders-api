@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Worker;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\Worker\Models\Worker;
 use Illuminate\Database\Seeder;
 
 class WorkerSeeder extends Seeder
