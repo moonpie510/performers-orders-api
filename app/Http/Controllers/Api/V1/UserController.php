@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\DTOs\User\LoginDto;
-use App\DTOs\User\RegisterDto;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\LoginRequest;
-use App\Http\Requests\User\RegisterRequest;
-use App\Http\Resources\SessionResource;
-use App\Models\User;
-use App\Services\UserService;
+use Domains\User\DTOs\LoginUserDto;
+use Domains\User\DTOs\RegisterUserDto;
+use Domains\User\Models\User;
+use Domains\User\Repositories\UserRepositoryInterface;
+use Domains\User\Requests\LoginUserRequest;
+use Domains\User\Requests\RegisterUserRequest;
+use Domains\User\Resources\UserSessionResource;
+use Domains\User\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -18,23 +19,24 @@ class UserController extends Controller
 {
     public function __construct(
         private readonly UserService $userService,
+        private readonly UserRepositoryInterface $userRepository,
     )
     {}
 
-    public function login(LoginRequest $request): JsonResponse
+    public function login(LoginUserRequest $request): JsonResponse
     {
         try {
-            $user = $this->userService->login(LoginDto::fromRequest($request));
+            $user = $this->userService->login(LoginUserDto::fromRequest($request));
             return $this->successResponse(['token' => $user->createToken(User::TOKEN_NAME)->accessToken]);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage());
         }
     }
 
-    public function register(RegisterRequest $request): JsonResponse
+    public function register(RegisterUserRequest $request): JsonResponse
     {
         try {
-            $user = $this->userService->register(RegisterDto::fromRequest($request));
+            $user = $this->userRepository->register(RegisterUserDto::fromRequest($request));
             return $this->successResponse(['token' => $user->createToken(User::TOKEN_NAME)->accessToken]);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage());
@@ -55,7 +57,7 @@ class UserController extends Controller
     {
         try {
             $sessions = $this->userService->getActiveSessions();
-            return SessionResource::collection($sessions);
+            return UserSessionResource::collection($sessions);
         } catch (\Throwable $th) {
             return $this->errorResponse($th->getMessage());
         }

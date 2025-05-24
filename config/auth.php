@@ -71,11 +71,11 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', \Domains\User\Models\User::class),
         ],
         'workers' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\Worker::class),
+            'model' => env('AUTH_MODEL', \Domains\Worker\Models\Worker::class),
         ]
 
         // 'users' => [

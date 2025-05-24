@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\WorkersExOrderType;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\Worker\Models\WorkersExOrderType;
 use Illuminate\Database\Seeder;
 
 class WorkersExOrderTypeSeeder extends Seeder

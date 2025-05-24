@@ -2,8 +2,7 @@
 
 namespace App\Events;
 
-use App\Enums\OrderStatus;
-use App\Models\Order;
+use Domains\Order\Models\Order;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;

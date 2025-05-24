@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Partnership;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Domains\Partnership\Models\Partnership;
 use Illuminate\Database\Seeder;
 
 class PartnershipSeeder extends Seeder

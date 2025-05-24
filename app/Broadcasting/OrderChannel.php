@@ -2,7 +2,7 @@
 
 namespace App\Broadcasting;
 
-use App\Models\Worker;
+use Domains\Worker\Models\Worker;
 
 class OrderChannel
 {

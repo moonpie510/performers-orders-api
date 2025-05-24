@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Repositories\Interfaces\OrderRepositoryInterface;
-use App\Repositories\Interfaces\WorkerRepositoryInterface;
-use App\Repositories\OrderRepository;
-use App\Repositories\UserRepository;
-use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Repositories\WorkerRepository;
+use Domains\Order\Repositories\OrderRepository;
+use Domains\Order\Repositories\OrderRepositoryInterface;
+use Domains\User\Repositories\UserRepository;
+use Domains\User\Repositories\UserRepositoryInterface;
+use Domains\Worker\Repositories\WorkerRepository;
+use Domains\Worker\Repositories\WorkerRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Enums\OrderStatus;
-use App\Models\Order;
-use App\Models\OrderType;
-use App\Models\Partnership;
-use App\Models\User;
+use Domains\Order\Enums\OrderStatusEnum;
+use Domains\Order\Models\Order;
+use Domains\Order\Models\OrderType;
+use Domains\Partnership\Models\Partnership;
+use Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class OrderFactory extends Factory
 {
+    protected $model = Order::class;
+
     /**
      * Define the model's default state.
      *
@@ -29,7 +31,7 @@ class OrderFactory extends Factory
             'date' => fake()->date(),
             'address' => fake()->address(),
             'amount' => fake()->numberBetween(500, 5000),
-            'status' => fake()->randomElement(array_column(OrderStatus::cases(), 'value')),
+            'status' => fake()->randomElement(array_column(OrderStatusEnum::cases(), 'value')),
         ];
     }
 }
