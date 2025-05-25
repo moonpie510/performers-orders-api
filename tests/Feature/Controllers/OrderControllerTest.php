@@ -84,7 +84,7 @@ class OrderControllerTest extends TestCase
 
         $response = $this->post('/api/v1/orders/assign-worker', ['order_id' => $order->id, 'worker_id' => $worker->id]);
 
-        $response->assertJson(['message' => 'Назначить работника можно только на созданный заказ']);
+        $response->assertJson(['message' => 'Статус заказа не может быть изменен']);
     }
 
     public function test_update_order_status_success()

@@ -5,11 +5,12 @@ namespace Domains\Order\Services;
 use App\Events\OrderStatusUpdatedEvent;
 use App\Exceptions\OrderException;
 use Domains\Order\DTOs\AssignWorkerDto;
-use Domains\Order\Enums\OrderStatusEnum;
 use Domains\Order\Models\Order;
 use Domains\Order\Repositories\OrderRepositoryInterface;
+use Domains\Order\States\AppointedOrderStatus;
 use Domains\Worker\Models\Worker;
 use Domains\Worker\Repositories\WorkerRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 readonly class OrderService
 {
@@ -23,23 +24,21 @@ readonly class OrderService
     {
         $order = $this->orderRepository->getById($dto->orderId);
 
-        if ($order->status !== OrderStatusEnum::Created->value) {
-            throw OrderException::wrongStatus();
-        }
-
         $worker = $this->workerRepository->getById($dto->workerId);
 
         if ($this->isExcludedOrderType($worker, $order)) {
             throw OrderException::excludedType();
         }
 
-        $order->workers()->attach($worker->id, [
-            'amount' => $order->amount,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        DB::transaction(function () use ($order, $worker) {
+            $order->status->transitionTo(new AppointedOrderStatus($order));
 
-        $order->update(['status' => OrderStatusEnum::Appointed->value]);
+            $order->workers()->attach($worker->id, [
+                'amount' => $order->amount,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        });
     }
 
     private function isExcludedOrderType(Worker $worker, Order $order): bool
@@ -49,6 +48,10 @@ readonly class OrderService
 
     public function updateStatus(Order $order, string $status): void
     {
+        if (!$order->status->canBeChanged()) {
+            throw OrderException::wrongStatusForUpdate();
+        }
+
         $this->orderRepository->updateStatus($order, $status);
 
         OrderStatusUpdatedEvent::dispatch($order, $status);
