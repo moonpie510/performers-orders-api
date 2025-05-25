@@ -1,5 +1,5 @@
 ## О проекте
-Бизнес логика находится в папке `src` и поделена на домены.
+Логика приложения находится в папке `src` и поделена на домены.
 
 ## Установка
 
@@ -33,7 +33,7 @@
 ## Роуты
 1) ### Логин менеджера
 ```http
-POST /api/v1/auth/user/login
+POST /api/v1/users/login
 ```
 
 | Параметр   | Тип      | Описание                 |
@@ -43,7 +43,7 @@ POST /api/v1/auth/user/login
 
 2) ### Регистарция менеджера
 ```http
-POST /api/v1/auth/user/register
+POST /api/v1/users/register
 ```
 
 | Параметр                | Тип      | Описание                                     |
@@ -56,17 +56,17 @@ POST /api/v1/auth/user/register
 
 3) ### Выход из аккаунта менеджера
 ```http
-POST /api/v1/auth/user/logout
+POST /api/v1/users/logout
 ```
 
 4) ### Получение активных сессий менеджера
 ```http
-GET /api/v1/auth/user/sessions
+GET /api/v1/users/sessions
 ```
 
 5) ### Закрытие выбранной сесии
 ```http
-DELETE /api/v1/auth/user/sessions/{id}
+DELETE /api/v1/users/sessions/{id}
 ```
 id - id сессии которую нужно закрыть
 
